@@ -1,0 +1,23 @@
+[project]
+name = "moonlight"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "dart-sass>=0.5.2",
+    "json5>=0.13.0",
+    "jsonschema>=4.26.0",
+    "loguru>=0.7.3",
+    "pydantic>=2.12.5",
+    "pykwalify>=1.8.0",
+    "pyyaml>=6.0.3",
+]
+
+[dependency-groups]
+dev = [
+    "ignis",
+]
+
+[tool.uv.sources]
+ignis = { git = "https://github.com/ignis-sh/ignis.git" }

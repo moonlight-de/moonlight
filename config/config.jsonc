@@ -1,0 +1,19 @@
+{
+  "general": {},
+  "widgets": {
+    "statusbar": {
+      "enabled": true,
+      "position": "top",
+      "modules_layout": {
+        "start_widgets": [],
+        "center_widgets": ["clock"],
+        "end_widgets": []
+      },
+      "modules": {
+        "clock": {
+          "format": "%I:%M %p"
+        }
+      }
+    }
+  }
+}
