@@ -1,4 +1,4 @@
-import widgets
+from widgets import init
 
-# startup
-widgets.init()
+
+init()

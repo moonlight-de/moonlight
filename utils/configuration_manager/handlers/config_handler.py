@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Any, Dict
 
 
-class ConfigHandler(ABC):
+class BaseConfigHandler(ABC):
     def __init__(self, path: Path) -> None:
         self.path = path
 

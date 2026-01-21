@@ -1,5 +1,8 @@
 from utils import (
     ConfigManager,
+)
+
+from utils.constants import (
     ROOT_SCHEMAS_DIR,
     ROOT_CONFIG_DIR,
     APP_CONFIG_DIR,

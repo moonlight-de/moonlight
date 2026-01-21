@@ -2,18 +2,21 @@ from pathlib import Path
 from typing import Dict, Any, List
 import shutil
 
-from utils import (
-    MergeDicts,
+from utils.tools import MergeDicts
+
+from utils.constants import (
     PathHandler,
     CONFIG_DEFAULT_NAMES,
     CONFIG_DEFAULT_SCHEMAS,
 )
 
-from .manager_handler.config_finder import ConfigFinder
-from .manager_handler.config_loader import ConfigLoader
-from .manager_handler.config_importer import ConfigImporter
-from .manager_handler.schema_finder import SchemaFinder
-from .manager_handler.schema_validator import SchemaValidator
+from .tools import (
+    ConfigFinder,
+    ConfigLoader,
+    ConfigImporter,
+    SchemaFinder,
+    SchemaValidator,
+)
 
 
 class ConfigManager:

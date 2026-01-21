@@ -1,8 +1,9 @@
 from ignis import widgets
 
 from widgets import config_manager
-from utils import APP_NAME, AnchorHandler
-from .core.module_handler import ModuleHandler
+from utils.constants import APP_NAME
+from utils.tools import AnchorHandler
+from .core import ModuleHandler
 
 
 if config_manager.statusbar["enabled"]:
