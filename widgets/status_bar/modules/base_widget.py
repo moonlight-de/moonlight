@@ -3,6 +3,7 @@ from widgets import config_manager
 from gi.repository import Gtk, GLib  # type: ignore
 from ignis import widgets
 from ignis import utils
+from ignis.services import hyprland, niri
 
 
 class BarWidget(ABC):
@@ -14,6 +15,9 @@ class BarWidget(ABC):
         self.config = config_manager.statusbar["modules"]
         self.ignis_utils = utils
         self.ignis_widget = widgets
+        self.ignis_hyprland = hyprland
+        self.ignis_niri = niri
+
         self.widget = self.build()
         GLib.idle_add(self.update)
 

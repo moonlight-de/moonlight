@@ -1,8 +1,6 @@
-from .clock import ClockWidget
 from .workspaces import WorkspacesWidget
 
 
 __all__ = [
-    "ClockWidget",
     "WorkspacesWidget",
 ]
