@@ -3,7 +3,7 @@ from pathlib import Path
 
 from gi.repository import GLib  # type: ignore
 
-from utils.constants.system import APP_NAME
+from utils.constants import APP_NAME
 
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent

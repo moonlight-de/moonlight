@@ -2,10 +2,11 @@ from loguru import logger
 from .config import ConfigWidgetManager
 
 config_manager = ConfigWidgetManager()
-from .status_bar.bar import StatusBar
+from .status_bar import StatusBar
 
 __all__ = [
     "config_manager",
+    "StatusBar",
 ]
 
 

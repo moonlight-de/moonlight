@@ -3,7 +3,7 @@ from typing import Any, Dict
 
 import jsonschema  # type: ignore
 
-from .config_loader import ConfigLoader
+from .loader import ConfigLoader
 
 
 class SchemaValidator:
