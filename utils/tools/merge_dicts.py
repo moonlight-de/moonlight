@@ -1,9 +1,11 @@
 from typing import Any, Dict
 
+type AnyDict = Dict[str, Any]
+
 
 class MergeDicts:
     @staticmethod
-    def merge(base: Dict[str, Any], override: Dict[str, Any]) -> Dict[str, Any]:
+    def merge(base: AnyDict, override: AnyDict) -> AnyDict:
         """
         Mutates `base` by applying `override` on top (recursive).
         Returns base for convenience.

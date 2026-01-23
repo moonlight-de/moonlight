@@ -3,9 +3,11 @@ from typing import Any
 
 from loguru import logger
 
-from ..core.yaml_config import ConfigHandlerYaml
-from ..core.jsonc_handler import ConfigHandlerJSONC
-from ..core.config_handler import ConfigHandler
+from utils.configuration_manager.handlers import (
+    ConfigHandlerYaml,
+    ConfigHandlerJSONC,
+    BaseConfigHandler,
+)
 
 
 class ConfigLoader:
@@ -16,7 +18,7 @@ class ConfigLoader:
     def load(path: Path) -> Any:
         ext = path.suffix.lstrip(".").lower()
         if ext in ConfigLoader.YAML_EXT:
-            handler: ConfigHandler = ConfigHandlerYaml(path)
+            handler: BaseConfigHandler = ConfigHandlerYaml(path)
         elif ext == ConfigLoader.JSONC_EXT:
             handler = ConfigHandlerJSONC(path)
         else:

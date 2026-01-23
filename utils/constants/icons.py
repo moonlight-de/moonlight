@@ -1,118 +1,55 @@
-TEXT_ICONS = {
-    "ui": {
-        "window_close": "",
-        "question": "",
-        "headset": "󰋎",
-        "headphones": "󰋋",
-        "phone": "󰏲",
-        "watch": "",
-        "keyboard": "",
-        "mouse": "",
-        "tv": "",
-        "printer": "󰐪",
-        "camera": "",
-        "speakers": "󰓃",
-        "package": "",
-    },
-    "wifi": {
-        "connected": "󰤨",
-        "disconnected": "󰤩",
-        "connecting": "󰤪",
-        "disabled": "󰤭",
-        "generic": "󰤬",
-        "strength_0": "󰤯",
-        "strength_1": "󰤟",
-        "strength_2": "󰤢",
-        "strength_3": "󰤥",
-        "strength_4": "󰤨",
-    },
-    "mpris": {
-        "playing": "",
-        "paused": "",
-        "stopped": "",
-        "previous": "",
-        "next": "",
-        "shuffle": "",
-        "loop": "",
-    },
-    "trash": {
-        "full": "",
-        "empty": "",
-    },
-    "notifications": {
-        "noisy": "󰂜",
-        "full": "󰅸",
-        "silent": "󰪑",
-        "checked": "󱇥",
-    },
-    "chevron": {
-        "right": "",
-        "left": "",
-        "down": "",
-        "up": "",
-    },
-    "nightlight": {
-        "enabled": "󱩌",
-        "disabled": "󰛨",
-    },
-    "bluetooth": {"enabled": "󰂱", "disabled": "󰂲"},
-    "power": "",
-    "cpu": "",
-    "memory": "",
-    "storage": "󰋊",
-    "updates": "󱧘",
-    "thermometer": "",
-    "recorder": "󰻂",
-    "fallback": "",
-    "powerprofiles": {"power-saver": "󰌪", "performance": "󰓅", "balanced": "󰒂"},
-    "volume": {
-        "overamplified": "󰕾",
-        "high": "󰕾",
-        "medium": "󰖀",
-        "low": "󰕿",
-        "muted": "󰝟",
-    },
-    "microphone": {
-        "muted": "",
-        "low": "󰖁",
-        "medium": "󰖂",
-        "high": "",
-    },
-    "brightness": {
-        "off": "",  # lowest brightness
-        "low": "",
-        "medium": "",
-        "high": "",  # highest brightness
-    },
-    "distro": {
-        "deepin": "",
-        "fedora": "",
-        "arch": "",
-        "nixos": "",
-        "debian": "",
-        "opensuse-tumbleweed": "",
-        "ubuntu": "",
-        "endeavouros": "",
-        "manjaro": "",
-        "popos": "",
-        "garuda": "",
-        "zorin": "",
-        "mxlinux": "",
-        "arcolinux": "",
-        "gentoo": "",
-        "artix": "",
-        "centos": "",
-        "hyperbola": "",
-        "kubuntu": "",
-        "mandriva": "",
-        "xerolinux": "",
-        "parabola": "",
-        "void": "",
-        "linuxmint": "",
-        "archlabs": "",
-        "devuan": "",
-        "freebsd": "",
-        "openbsd": "",
-        "slackware": "",
-    },
-}
+from types import SimpleNamespace
+
+
+def _ns(**kwargs):
+    return SimpleNamespace(**kwargs)
+
+
+"""
+use *
+    TEXT_ICONS.wifi.strength_3
+    TEXT_ICONS.volume.muted
+    TEXT_ICONS.ui.keyboard
+    TEXT_ICONS.power
+    *
+"""
+
+TEXT_ICONS = _ns(
+    ui=_ns(
+        window_close="",
+        question="",
+        headset="󰋎",
+        headphones="󰋋",
+        phone="󰏲",
+        watch="",
+        keyboard="",
+        mouse="",
+        tv="",
+        printer="󰐪",
+        camera="",
+        speakers="󰓃",
+        package="",
+    ),
+    wifi=_ns(
+        connected="󰤨",
+        disconnected="󰤩",
+        connecting="󰤪",
+        disabled="󰤭",
+        generic="󰤬",
+        strength_0="󰤯",
+        strength_1="󰤟",
+        strength_2="󰤢",
+        strength_3="󰤥",
+        strength_4="󰤨",
+    ),
+    volume=_ns(
+        overamplified="󰕾",
+        high="󰕾",
+        medium="󰖀",
+        low="󰕿",
+        muted="󰝟",
+    ),
+    power="",
+    cpu="",
+    fallback="",
+)

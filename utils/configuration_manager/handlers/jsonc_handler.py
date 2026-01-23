@@ -1,10 +1,10 @@
 from typing import Any, Dict
 import json5
 
-from .config_handler import ConfigHandler
+from .config_handler import BaseConfigHandler
 
 
-class ConfigHandlerJSONC(ConfigHandler):
+class ConfigHandlerJSONC(BaseConfigHandler):
     def load(self) -> Dict[str, Any]:
         if not self.path.exists() or self.path.stat().st_size == 0:
             return {}

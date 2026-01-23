@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import List, Optional
 
-from utils import CONFIG_DEFAULT_SCHEMAS
+from utils.constants import CONFIG_DEFAULT_SCHEMAS
 
 
 class SchemaFinder:

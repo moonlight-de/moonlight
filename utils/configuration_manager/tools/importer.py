@@ -1,12 +1,8 @@
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Set, List
+from typing import Any, Set, List
 import os
 
 from loguru import logger
-
-if TYPE_CHECKING:
-    from ...tools.merge_dicts import MergeDicts  # type: ignore
-    from ..manager_handler.config_loader import ConfigLoader  # type: ignore
 
 
 class ConfigImporter:

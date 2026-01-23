@@ -1,4 +1,4 @@
-from ..modules.clock import ClockWidget
+from widgets.status_bar.modules.clock import ClockWidget
 
 
 class StatusBarModules:
