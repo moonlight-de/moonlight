@@ -1,6 +1,7 @@
 from .icons import TEXT_ICONS
 from .path_handler import PathHandler
 from .system import APP_NAME
+from .distributive import Distributives
 from .paths import (
     XDG_CONFIG_HOME,
     XDG_CACHE_HOME,
@@ -12,6 +13,7 @@ from .paths import (
     ROOT_SCHEMAS_DIR,
     CONFIG_DEFAULT_NAMES,
     CONFIG_DEFAULT_SCHEMAS,
+    ETC_DIR,
 )
 
 
@@ -29,4 +31,6 @@ __all__ = [
     "CONFIG_DEFAULT_SCHEMAS",
     "TEXT_ICONS",
     "PathHandler",
+    "ETC_DIR",
+    "Distributives",
 ]

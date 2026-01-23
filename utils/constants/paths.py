@@ -26,3 +26,5 @@ ROOT_SCHEMAS_DIR = ROOT_CONFIG_DIR / "schemas"
 # configuration defaults
 CONFIG_DEFAULT_SCHEMAS = ("schema.yaml", "schema.yml", "schema.jsonc")
 CONFIG_DEFAULT_NAMES = ("config.yaml", "config.yml", "config.jsonc")
+
+ETC_DIR = Path("/etc")
