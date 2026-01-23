@@ -3,11 +3,11 @@ from services.wayland_ipc.interfaces import IWorkspace
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from services.wayland_ipc.hyprland.hypr import Hypr
+    from services.wayland_ipc.hyprland.hypr import Hyprctl
 
 
 class HyprWorkspace(IWorkspace):
-    def __init__(self, hyprland_ipc: "Hypr") -> None:
+    def __init__(self, hyprland_ipc: "Hyprctl") -> None:
         self.hyprland_ipc = hyprland_ipc
 
     def list_workspaces(self) -> dict[int, WorkspaceModel]:

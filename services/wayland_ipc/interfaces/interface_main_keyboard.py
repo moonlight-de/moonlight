@@ -1,5 +1,9 @@
 from abc import ABC, abstractmethod
-from services.wayland_ipc.hyprland.models import MainKeyboardModel
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from services.wayland_ipc.hyprland.models import MainKeyboardModel
 
 
 class IMainKeyboard(ABC):
@@ -8,7 +12,7 @@ class IMainKeyboard(ABC):
     """
 
     @abstractmethod
-    def keyboard(self) -> MainKeyboardModel:
+    def keyboard(self) -> "MainKeyboardModel":
         """
         Return the main keyboard as a dictionary.
 

@@ -1,5 +1,8 @@
 from abc import ABC, abstractmethod
-from services.wayland_ipc.hyprland.models import WorkspaceModel
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from services.wayland_ipc.hyprland.models import WorkspaceModel
 
 
 class IWorkspace(ABC):
@@ -8,7 +11,7 @@ class IWorkspace(ABC):
     """
 
     @abstractmethod
-    def list_workspaces(self) -> dict[int, WorkspaceModel]:
+    def list_workspaces(self) -> dict[int, "WorkspaceModel"]:
         """
         Return a dictionary of workspaces.
 

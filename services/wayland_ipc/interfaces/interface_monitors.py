@@ -1,6 +1,10 @@
 from abc import ABC, abstractmethod
 from typing import List
-from services.wayland_ipc.hyprland.models import MonitorsModel
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from services.wayland_ipc.hyprland.models import MonitorsModel
 
 
 class IMonitors(ABC):
@@ -9,7 +13,7 @@ class IMonitors(ABC):
     """
 
     @abstractmethod
-    def list_monitors(self) -> List[MonitorsModel]:
+    def list_monitors(self) -> List["MonitorsModel"]:
         """
         Return a list of monitors as MonitorsModel instances.
 

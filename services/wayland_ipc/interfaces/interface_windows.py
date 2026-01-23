@@ -1,6 +1,10 @@
 from abc import ABC, abstractmethod
 from typing import List
-from services.wayland_ipc.hyprland.models import WindowsModel
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from services.wayland_ipc.hyprland.models import WindowsModel
 
 
 class IWindows(ABC):
@@ -9,7 +13,7 @@ class IWindows(ABC):
     """
 
     @abstractmethod
-    def list_windows(self) -> List[WindowsModel]:
+    def list_windows(self) -> List["WindowsModel"]:
         """
         Return a list of windows as WindowsModel instances.
 
@@ -36,7 +40,7 @@ class IWindows(ABC):
         ...
 
     @abstractmethod
-    def list_windows_on_workspace(self, workspace_id: int) -> List[WindowsModel]:
+    def list_windows_on_workspace(self, workspace_id: int) -> List["WindowsModel"]:
         """
         Return a list of windows on a workspace as WindowsModel instances.
 
@@ -47,7 +51,7 @@ class IWindows(ABC):
         ...
 
     @abstractmethod
-    def get_window_by_address(self, address: str) -> WindowsModel | None:
+    def get_window_by_address(self, address: str) -> "WindowsModel":
         """
         Return a specific window by its unique address, or None if not found.
 
