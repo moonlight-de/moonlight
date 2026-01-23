@@ -1,6 +1,6 @@
 import platform
 
-from utils.constants import Distributives
+from utils.constants import SupportedDistributives
 from loguru import logger
 
 
@@ -11,13 +11,13 @@ class DefineDistro:
 
     @staticmethod
     def get() -> str:
-        value: str = Distributives.LINUX
+        value: str = SupportedDistributives.LINUX
 
         try:
             os_info = platform.freedesktop_os_release()
             name = os_info["NAME"]
 
-            for distributiv in Distributives.DISTRIBUTIVES:
+            for distributiv in SupportedDistributives.DISTRIBUTIVES_LIST:
                 if distributiv in name:
                     value = distributiv
                     break
@@ -25,8 +25,8 @@ class DefineDistro:
         except Exception:
             logger.warning(
                 "Failed to define Linux distribution. Using default. "
-                + Distributives.LINUX
+                + SupportedDistributives.LINUX
             )
-            value = Distributives.LINUX
+            value = SupportedDistributives.LINUX
 
         return value
