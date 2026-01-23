@@ -1,4 +1,4 @@
-from .hypr import Hyprctl
+from .hyprctl import Hyprctl
 
 
 __all__ = [

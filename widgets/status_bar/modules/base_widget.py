@@ -5,7 +5,7 @@ from ignis import widgets
 from ignis import utils
 
 
-class BarWidget(ABC):
+class BaseBarWidget(ABC):
     """
     Abstract class for status bar widgets
     """
