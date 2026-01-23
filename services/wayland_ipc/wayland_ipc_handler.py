@@ -1,7 +1,7 @@
 from loguru import logger
 from utils.tools import DefineDesktop
 
-from services.wayland_ipc.hyprland.hypr import Hyprctl
+from services.wayland_ipc.hyprland import Hyprctl
 
 REGISTER_WAYLAND_IPC = [
     Hyprctl,
