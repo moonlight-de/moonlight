@@ -6,7 +6,7 @@ from services import WaylandIpcHandler
 class WorkspacesWidget(BaseBarWidget):
     def __init__(self):
         super().__init__()
-        self.wayland_ipc = WaylandIpcHandler.ipc()
+        self.wayland_ipc = WaylandIpcHandler.create_wayland_ipc()
 
     def build(self):
         return self.ignis_widget.Label(label="workspaces")
