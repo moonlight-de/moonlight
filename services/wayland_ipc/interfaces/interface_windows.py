@@ -1,7 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List
-
-from typing import TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from services.wayland_ipc.hyprland.models import WindowsModel
@@ -12,6 +10,7 @@ class IWindows(ABC):
     Interface for interacting with windows.
     """
 
+    @property
     @abstractmethod
     def list_windows(self) -> List["WindowsModel"]:
         """
@@ -25,7 +24,6 @@ class IWindows(ABC):
                     size=[1280, 720],
                     workspace_id=1,
                     floating=True,
-                    monitor="eDP-1",
                     monitor_id=0,
                     class_name="firefox",
                     title="Mozilla Firefox ...",
@@ -40,7 +38,9 @@ class IWindows(ABC):
         ...
 
     @abstractmethod
-    def list_windows_on_workspace(self, workspace_id: int) -> List["WindowsModel"]:
+    def list_windows_on_workspace(
+        self, workspace_id: int
+    ) -> Optional[List["WindowsModel"]]:
         """
         Return a list of windows on a workspace as WindowsModel instances.
 
@@ -51,7 +51,7 @@ class IWindows(ABC):
         ...
 
     @abstractmethod
-    def get_window_by_address(self, address: str) -> "WindowsModel":
+    def get_window_by_address(self, address: str) -> Optional["WindowsModel"]:
         """
         Return a specific window by its unique address, or None if not found.
 
@@ -59,3 +59,9 @@ class IWindows(ABC):
             address: The address of the window (e.g., "0x558c8deb0f40").
         """
         ...
+
+    @abstractmethod
+    def refresh(self) -> None:
+        """
+        Refresh the list of windows.
+        """

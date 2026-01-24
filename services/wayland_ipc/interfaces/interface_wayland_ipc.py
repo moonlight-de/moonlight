@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-
 from typing import TYPE_CHECKING
+
 
 if TYPE_CHECKING:
     from services.wayland_ipc.interfaces import (
@@ -9,6 +9,7 @@ if TYPE_CHECKING:
         IWindows,
         IMonitors,
         IMainKeyboard,
+        IEvents,
     )
 
 
@@ -17,14 +18,7 @@ class IWaylandIpc(ABC):
     Interface for wayland ipc
     """
 
-    @staticmethod
-    @abstractmethod
-    def name() -> str:
-        """
-        Return the name of the wayland ipc
-        """
-        ...
-
+    @property
     @abstractmethod
     def workspace(self) -> "IWorkspace":
         """
@@ -32,6 +26,7 @@ class IWaylandIpc(ABC):
         """
         ...
 
+    @property
     @abstractmethod
     def windows(self) -> "IWindows":
         """
@@ -39,6 +34,7 @@ class IWaylandIpc(ABC):
         """
         ...
 
+    @property
     @abstractmethod
     def monitors(self) -> "IMonitors":
         """
@@ -47,10 +43,21 @@ class IWaylandIpc(ABC):
 
         ...
 
+    @property
     @abstractmethod
     def main_keyboard(self) -> "IMainKeyboard":
         """
         Return the main keyboard as a dictionary.
         """
 
+        ...
+
+    @property
+    @abstractmethod
+    def events(self) -> "IEvents":
+        """
+        Return None
+        ---
+        for connect desktop environment events
+        """
         ...

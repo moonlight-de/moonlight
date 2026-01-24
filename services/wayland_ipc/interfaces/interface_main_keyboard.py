@@ -11,6 +11,7 @@ class IMainKeyboard(ABC):
     Interface for the main keyboard.
     """
 
+    @property
     @abstractmethod
     def keyboard(self) -> "MainKeyboardModel":
         """
@@ -20,7 +21,7 @@ class IMainKeyboard(ABC):
              MainKeyboardModel(
                 address="0x558c8deb0f40",
                 name="Logitech K120",
-                layout="us",
+                layout=["us", "ru"],
                 variant="",
                 options="",
                 active_keymap="us",
@@ -30,3 +31,9 @@ class IMainKeyboard(ABC):
             )
         """
         ...
+
+    @abstractmethod
+    def refresh(self) -> None:
+        """
+        Refresh the main keyboard.
+        """

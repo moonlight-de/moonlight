@@ -10,8 +10,6 @@ class MonitorsModel(BaseModel):
     serial: Optional[str] = None
     width: int
     height: int
-    physical_width: Optional[int] = None
-    physical_height: Optional[int] = None
     refresh_rate: Optional[float] = None
     scale: float = 1.0
     focused: bool = False

@@ -6,7 +6,7 @@ class MainKeyboardModel(BaseModel):
     name: str
     rules: str
     model: str
-    layout: str
+    layout: list
     variant: str
     options: str
     active_keymap: str

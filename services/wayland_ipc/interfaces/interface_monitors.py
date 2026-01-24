@@ -12,6 +12,7 @@ class IMonitors(ABC):
     Interface for interacting with monitors.
     """
 
+    @property
     @abstractmethod
     def list_monitors(self) -> List["MonitorsModel"]:
         """
@@ -27,8 +28,6 @@ class IMonitors(ABC):
                     serial=None,
                     width=1920,
                     height=1080,
-                    physical_width=340,
-                    physical_height=190,
                     refresh_rate=144.0,
                     scale=1.0,
                     focused=True,
@@ -38,3 +37,9 @@ class IMonitors(ABC):
             ]
         """
         ...
+
+    @abstractmethod
+    def refresh(self) -> None:
+        """
+        Refresh the list of monitors.
+        """

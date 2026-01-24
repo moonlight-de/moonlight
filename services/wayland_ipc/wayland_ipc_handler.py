@@ -1,30 +1,26 @@
-from loguru import logger
+from typing import Type
 from utils.tools import DefineDesktop
+from loguru import logger
+from utils.constants.supported_desktops import SupportedDesktops as sd
 
-from services.wayland_ipc.hyprland import Hyprctl
+from services.wayland_ipc.hyprland.hyprctl import Hyprctl
+from services.wayland_ipc.interfaces import IWaylandIpc
 
-REGISTER_WAYLAND_IPC = [
-    Hyprctl,
-]
+WAYLAND_IPC_REGISTRY: dict[str, Type[IWaylandIpc]] = {
+    sd.HYPRLAND: Hyprctl,
+}
 
 
 class WaylandIpcHandler:
-    _instance = None
+    """
+    Wayland IPC Handler
+    """
 
-    @classmethod
-    def ipc(cls):
-        if cls._instance is not None:
-            return cls._instance
-
-        desktop_env = DefineDesktop.get()
-        for wayland_ipc in REGISTER_WAYLAND_IPC:
-            try:
-                name = wayland_ipc.name()
-            except TypeError:
-                name = wayland_ipc().name()
-            if desktop_env == name:
-                cls._instance = wayland_ipc()
-                return cls._instance
-
-        logger.error(f"Wayland IPC not found for desktop environment: {desktop_env}")
-        return None
+    @staticmethod
+    def create_wayland_ipc() -> IWaylandIpc:
+        desktop = DefineDesktop.get()
+        cls = WAYLAND_IPC_REGISTRY[desktop]
+        if not cls:
+            logger.error(f"Wayland IPC not found for desktop environment: {desktop}")
+            raise RuntimeError(f"No Wayland IPC for {desktop}")
+        return cls()

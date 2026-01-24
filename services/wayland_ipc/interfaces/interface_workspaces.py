@@ -10,6 +10,7 @@ class IWorkspace(ABC):
     Interface for workspaces
     """
 
+    @property
     @abstractmethod
     def list_workspaces(self) -> dict[int, "WorkspaceModel"]:
         """
@@ -33,6 +34,7 @@ class IWorkspace(ABC):
         """
         ...
 
+    @property
     @abstractmethod
     def active_workspace_id(self) -> int:
         """
@@ -50,3 +52,9 @@ class IWorkspace(ABC):
             print(active_ws.name)
         """
         ...
+
+    @abstractmethod
+    def refresh(self) -> None:
+        """
+        Refresh the list of workspaces.
+        """

@@ -13,6 +13,7 @@ HOME = Path.home()
 XDG_CONFIG_HOME = Path(os.getenv("XDG_CONFIG_HOME", GLib.get_user_config_dir()))
 XDG_CACHE_HOME = Path(os.getenv("XDG_CACHE_HOME", GLib.get_user_cache_dir()))
 XDG_DATA_HOME = Path(os.getenv("XDG_DATA_HOME", GLib.get_user_data_dir()))
+XDG_RUNTIME_DIR = Path(os.getenv("XDG_RUNTIME_DIR", GLib.get_user_runtime_dir()))
 
 # App Paths
 APP_CONFIG_DIR = XDG_CONFIG_HOME / APP_NAME

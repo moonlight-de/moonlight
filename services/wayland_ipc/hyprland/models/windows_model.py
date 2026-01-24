@@ -8,7 +8,6 @@ class WindowsModel(BaseModel):
     size: Tuple[int, int]
     workspace_id: int
     floating: bool
-    monitor: int
     monitor_id: int
     class_name: str
     title: str
