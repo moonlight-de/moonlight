@@ -1,4 +1,5 @@
 from widgets.status_bar.modules.clock import ClockWidget
+from widgets.status_bar.modules.workspaces import WorkspacesWidget
 
 
 class StatusBarModules:
@@ -8,4 +9,5 @@ class StatusBarModules:
 
     WIDGETS = {
         "clock": ClockWidget,
+        "workspaces": WorkspacesWidget,
     }
