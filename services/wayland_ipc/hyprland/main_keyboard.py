@@ -42,4 +42,5 @@ class HyprMainKeyboard(IMainKeyboard):
                 self.hyprland_ipc.hypr._main_keyboard.sync(kb_data)
 
     def _layout_handler(self, layout: str) -> list[str]:
-        return [x.strip() for x in layout.split(",") if x.strip()]
+        parts = map(str.strip, layout.split(","))
+        return [part for part in parts if part]

@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Callable
 
 from services.wayland_ipc.interfaces import IMonitorEvent
+from .hyprland_event import HyprlandEvent
 
 if TYPE_CHECKING:
     from services.wayland_ipc.hyprland.events import HyprEvents
@@ -13,10 +14,10 @@ class MonitorEvent(IMonitorEvent):
         self.hypr_events = hypr_events
 
     def moved(self, callback: Callable) -> None:
-        self.hypr_events.on("monitorremovedv2", callback)
+        self.hypr_events.on(HyprlandEvent.MONITOR_REMOVED_V2, callback)
 
     def added(self, callback: Callable) -> None:
-        self.hypr_events.on("monitoraddedv2", callback)
+        self.hypr_events.on(HyprlandEvent.MONITOR_ADDED_V2, callback)
 
     def removed(self, callback: Callable) -> None:
-        self.hypr_events.on("monitorremovedv2", callback)
+        self.hypr_events.on(HyprlandEvent.MONITOR_REMOVED_V2, callback)

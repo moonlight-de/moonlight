@@ -8,11 +8,12 @@ if TYPE_CHECKING:
     from .interface_window_event import IWindowEvent
     from .interface_monitor_event import IMonitorEvent
     from .interface_main_keyboard_event import IMainKeyboardEvent
+    from services.wayland_ipc.hyprland.events.hyprland_event import HyprlandEvent
 
 
 class IEvents(ABC):
     @abstractmethod
-    def on(self, event: str, callback: Callable[[str], None]) -> None:
+    def on(self, event: HyprlandEvent, callback: Callable[[str], None]) -> None:
         """Connect to desktop environment events"""
         ...
 

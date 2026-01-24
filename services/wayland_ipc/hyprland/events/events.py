@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Optional, Callable, Any
 
 from utils.constants.supported_desktops import SupportedDesktops
 from .ipc_listener import HyprlandIPCListener
+from .hyprland_event import HyprlandEvent
 
 from services.wayland_ipc.interfaces import (
     IEvents,
@@ -39,8 +40,8 @@ class HyprEvents(IEvents):
         self._listener.connect("raw-event", self.__dispatch)
         self._listener.start()
 
-    def on(self, event: str, callback: Callable) -> None:
-        self._callbacks.setdefault(event.lower(), []).append(callback)
+    def on(self, event: HyprlandEvent, callback: Callable) -> None:
+        self._callbacks.setdefault(str(event).lower(), []).append(callback)
 
     @property
     def workspace(self) -> IWorkspaceEvent:
@@ -73,4 +74,4 @@ class HyprEvents(IEvents):
             except Exception as e:
                 import logging
 
-                logging.exception("Error in Hyprland callback")
+                logging.exception(f"Error in Hyprland callback: {e}")
