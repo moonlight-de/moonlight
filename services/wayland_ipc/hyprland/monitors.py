@@ -1,14 +1,16 @@
+from __future__ import annotations
+
 import json
 from services.wayland_ipc.hyprland.models import MonitorsModel
 from services.wayland_ipc.interfaces import IMonitors
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from services.wayland_ipc.hyprland import Hyprctl
 
 
 class HyprMonitors(IMonitors):
-    def __init__(self, hyprland_ipc: "Hyprctl") -> None:
+    def __init__(self, hyprland_ipc: Hyprctl) -> None:
         self.hyprland_ipc = hyprland_ipc
 
     @property

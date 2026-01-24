@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 from ignis.services.hyprland import HyprlandWindow
 from services.wayland_ipc.hyprland.models import WindowsModel
@@ -9,7 +11,7 @@ if TYPE_CHECKING:
 
 
 class HyprWindows(IWindows):
-    def __init__(self, hyprland_ipc: "Hyprctl") -> None:
+    def __init__(self, hyprland_ipc: Hyprctl) -> None:
         self.hyprland_ipc = hyprland_ipc
 
     @property

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import TYPE_CHECKING, Callable, Optional
 
 from ignis.utils import Poll
@@ -10,7 +12,7 @@ if TYPE_CHECKING:
 
 
 class MainKeyboardEvent(IMainKeyboardEvent):
-    def __init__(self, hypr_events: "HyprEvents") -> None:
+    def __init__(self, hypr_events: HyprEvents) -> None:
         self.hypr_events = hypr_events
         self.keyboard = hypr_events.hyprland_ipc.main_keyboard
 

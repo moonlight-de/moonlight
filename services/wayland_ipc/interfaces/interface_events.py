@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Callable
 
@@ -16,24 +18,24 @@ class IEvents(ABC):
 
     @property
     @abstractmethod
-    def workspace(self) -> "IWorkspaceEvent":
+    def workspace(self) -> IWorkspaceEvent:
         """Return a desktop environment methods"""
         ...
 
     @property
     @abstractmethod
-    def window(self) -> "IWindowEvent":
+    def window(self) -> IWindowEvent:
         """Return a desktop environment methods"""
         ...
 
     @property
     @abstractmethod
-    def monitor(self) -> "IMonitorEvent":
+    def monitor(self) -> IMonitorEvent:
         """Return a desktop environment methods"""
         ...
 
     @property
     @abstractmethod
-    def main_keyboard(self) -> "IMainKeyboardEvent":
+    def main_keyboard(self) -> IMainKeyboardEvent:
         """Return a desktop environment methods"""
         ...

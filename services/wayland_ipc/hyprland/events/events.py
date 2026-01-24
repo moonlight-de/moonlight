@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import TYPE_CHECKING, Optional, Callable, Any
 
 from utils.constants.supported_desktops import SupportedDesktops
@@ -21,7 +23,7 @@ if TYPE_CHECKING:
 
 
 class HyprEvents(IEvents):
-    def __init__(self, hyprland_ipc: "Hyprctl") -> None:
+    def __init__(self, hyprland_ipc: Hyprctl) -> None:
         self.hyprland_ipc = hyprland_ipc
 
         socket2 = SupportedDesktops.HYPR_SOCKET_DIR / ".socket2.sock"
@@ -59,7 +61,7 @@ class HyprEvents(IEvents):
         return self._main_keyboard
 
     @property
-    def monitor(self) -> "IMonitorEvent":
+    def monitor(self) -> IMonitorEvent:
         if self._monitor is None:
             self._monitor = MonitorEvent(self)
         return self._monitor

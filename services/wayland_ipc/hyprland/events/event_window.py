@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import TYPE_CHECKING, Any, Callable
 
 from services.wayland_ipc.interfaces import IWindowEvent
@@ -7,7 +9,7 @@ if TYPE_CHECKING:
 
 
 class WindowEvent(IWindowEvent):
-    def __init__(self, hypr_events: "HyprEvents") -> None:
+    def __init__(self, hypr_events: HyprEvents) -> None:
         self.hypr_events = hypr_events
 
     def opened(self, callback: Callable) -> None:

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 from typing import TYPE_CHECKING
 from ignis.services.hyprland import HyprlandWorkspace
@@ -10,7 +12,7 @@ if TYPE_CHECKING:
 
 
 class HyprWorkspace(IWorkspace):
-    def __init__(self, hyprland_ipc: "Hyprctl") -> None:
+    def __init__(self, hyprland_ipc: Hyprctl) -> None:
         self.hyprland_ipc = hyprland_ipc
 
     @property

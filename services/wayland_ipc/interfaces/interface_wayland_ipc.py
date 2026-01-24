@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 
 from typing import TYPE_CHECKING
@@ -20,7 +22,7 @@ class IWaylandIpc(ABC):
 
     @property
     @abstractmethod
-    def workspace(self) -> "IWorkspace":
+    def workspace(self) -> IWorkspace:
         """
         Return a dictionary of workspaces.
         """
@@ -28,7 +30,7 @@ class IWaylandIpc(ABC):
 
     @property
     @abstractmethod
-    def windows(self) -> "IWindows":
+    def windows(self) -> IWindows:
         """
         Return a list of windows as WindowsModel instances.
         """
@@ -36,7 +38,7 @@ class IWaylandIpc(ABC):
 
     @property
     @abstractmethod
-    def monitors(self) -> "IMonitors":
+    def monitors(self) -> IMonitors:
         """
         Return a list of monitors as MonitorsModel instances.
         """
@@ -45,7 +47,7 @@ class IWaylandIpc(ABC):
 
     @property
     @abstractmethod
-    def main_keyboard(self) -> "IMainKeyboard":
+    def main_keyboard(self) -> IMainKeyboard:
         """
         Return the main keyboard as a dictionary.
         """
@@ -54,7 +56,7 @@ class IWaylandIpc(ABC):
 
     @property
     @abstractmethod
-    def events(self) -> "IEvents":
+    def events(self) -> IEvents:
         """
         Return None
         ---

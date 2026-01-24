@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 
 from typing import TYPE_CHECKING
@@ -13,7 +15,7 @@ class IMainKeyboard(ABC):
 
     @property
     @abstractmethod
-    def keyboard(self) -> "MainKeyboardModel":
+    def keyboard(self) -> MainKeyboardModel:
         """
         Return the main keyboard as a dictionary.
 
