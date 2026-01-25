@@ -1,8 +1,6 @@
-from utils.constants.icons import (
-    WifiIcons,
-    VolumeIcons,
-    UIIcons,
-)
+from .ui import UIIcons
+from .volume import VolumeIcons
+from .wifi import WifiIcons
 
 
 class TEXT_ICONS:

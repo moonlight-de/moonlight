@@ -1,9 +1,9 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class VolumeIcons(Enum):
-    overamplified = "󰕾"
-    high = "󰕾"
-    medium = "󰖀"
-    low = "󰕿"
-    muted = "󰝟"
+class VolumeIcons(StrEnum):
+    overamplified: str = "󰕾"
+    high: str = "󰕾"
+    medium: str = "󰖀"
+    low: str = "󰕿"
+    muted: str = "󰝟"
