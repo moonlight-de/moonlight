@@ -28,4 +28,12 @@ ROOT_SCHEMAS_DIR = ROOT_CONFIG_DIR / "schemas"
 CONFIG_DEFAULT_SCHEMAS = ("schema.yaml", "schema.yml", "schema.jsonc")
 CONFIG_DEFAULT_NAMES = ("config.yaml", "config.yml", "config.jsonc")
 
+# system configuration
 ETC_DIR = Path("/etc")
+
+# styles
+STYLES_DIR = PROJECT_ROOT / "styles"
+STYLES_SCSS_DIR = STYLES_DIR / "scss"
+STYLES_SCSS_FILE = STYLES_SCSS_DIR / "import.scss"
+STYLES_MAIN_FILE = STYLES_DIR / "main.css"
+STYLES_DEFAULT_GTK_FILE = STYLES_DIR / "default_gtk_theme" / "default_gtk.css"

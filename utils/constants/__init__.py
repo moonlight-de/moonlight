@@ -15,6 +15,11 @@ from .paths import (
     CONFIG_DEFAULT_NAMES,
     CONFIG_DEFAULT_SCHEMAS,
     ETC_DIR,
+    STYLES_DIR,
+    STYLES_SCSS_DIR,
+    STYLES_SCSS_FILE,
+    STYLES_MAIN_FILE,
+    STYLES_DEFAULT_GTK_FILE,
 )
 
 
@@ -35,4 +40,9 @@ __all__ = [
     "ETC_DIR",
     "SupportedDistributives",
     "SupportedDesktops",
+    "STYLES_DIR",
+    "STYLES_SCSS_DIR",
+    "STYLES_MAIN_FILE",
+    "STYLES_SCSS_FILE",
+    "STYLES_DEFAULT_GTK_FILE",
 ]

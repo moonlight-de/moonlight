@@ -1,4 +1,6 @@
-general: {}
+general:
+  styles:
+     system_theme: "dark"
 
 widgets:
   statusbar:
@@ -13,3 +15,4 @@ widgets:
     modules:
       clock:
         format: "%H:%M:%S"
+
