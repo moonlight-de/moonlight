@@ -1,2 +1,15 @@
-general:
+general: {}
 
+widgets:
+  statusbar:
+    enabled: true
+    position: top
+    modules_layout:
+      start_widgets:
+        - workspaces
+      center_widgets:
+        - clock
+      end_widgets: []
+    modules:
+      clock:
+        format: "%H:%M:%S"

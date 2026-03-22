@@ -5,13 +5,13 @@
       "enabled": true,
       "position": "top",
       "modules_layout": {
-        "start_widgets": [],
+        "start_widgets": ["workspaces"],
         "center_widgets": ["clock"],
         "end_widgets": []
       },
       "modules": {
         "clock": {
-          "format": "%I:%M %p"
+          // "format": "%I:%M %p"
         }
       }
     }

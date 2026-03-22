@@ -1,4 +1,4 @@
-class Distributives:
+class SupportedDistributives:
     """
     Constants of distributives
 
@@ -18,7 +18,7 @@ class Distributives:
     OPNESUS = "openSUSE"
     KALI = "Kali GNU/Linux"
 
-    DISTRIBUTIVES = [
+    DISTRIBUTIVES_LIST = [
         ARCH,
         UBUNTU,
         VOID,

@@ -1,7 +1,8 @@
 from .icons import TEXT_ICONS
 from .path_handler import PathHandler
 from .system import APP_NAME
-from .distributive import Distributives
+from .supported_distributive import SupportedDistributives
+from .supported_desktops import SupportedDesktops
 from .paths import (
     XDG_CONFIG_HOME,
     XDG_CACHE_HOME,
@@ -32,5 +33,6 @@ __all__ = [
     "TEXT_ICONS",
     "PathHandler",
     "ETC_DIR",
-    "Distributives",
+    "SupportedDistributives",
+    "SupportedDesktops",
 ]

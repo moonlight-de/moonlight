@@ -1,8 +1,8 @@
 import time
-from .base_widget import BarWidget
+from .base_widget import BaseBarWidget
 
 
-class ClockWidget(BarWidget):
+class ClockWidget(BaseBarWidget):
     """
     Display the current time
     Based *BarWidget
@@ -17,7 +17,7 @@ class ClockWidget(BarWidget):
     def update(self):
         self.ignis_utils.Poll(
             timeout=1_000,
-            callback=lambda s: self.widget.set_text(
+            callback=lambda s: self.widget.set_text(  # type: ignore
                 time.strftime(
                     self.config["clock"]["format"],
                 )
