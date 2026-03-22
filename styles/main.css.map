@@ -1,1 +1,1 @@
-{"version":3,"sourceRoot":"","sources":["scss/import.scss"],"names":[],"mappings":"AAAA;EACE;EACA","file":"main.css"}
+{"version":3,"sourceRoot":"","sources":["scss/import.scss","scss/_statusbar.scss"],"names":[],"mappings":"AAAA;EACE;EACA;;;ACFF;EACE;EACA","file":"main.css"}

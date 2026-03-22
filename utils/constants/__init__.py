@@ -7,6 +7,7 @@ from .paths import (
     XDG_CONFIG_HOME,
     XDG_CACHE_HOME,
     XDG_DATA_HOME,
+    STYLES_USER_FILE,
     APP_CONFIG_DIR,
     APP_CACHE_DIR,
     APP_DATA_DIR,
@@ -45,4 +46,5 @@ __all__ = [
     "STYLES_MAIN_FILE",
     "STYLES_SCSS_FILE",
     "STYLES_DEFAULT_GTK_FILE",
+    "STYLES_USER_FILE",
 ]

@@ -36,4 +36,6 @@ STYLES_DIR = PROJECT_ROOT / "styles"
 STYLES_SCSS_DIR = STYLES_DIR / "scss"
 STYLES_SCSS_FILE = STYLES_SCSS_DIR / "import.scss"
 STYLES_MAIN_FILE = STYLES_DIR / "main.css"
+STYLES_USER_FILE = STYLES_DIR / "user.css"
+
 STYLES_DEFAULT_GTK_FILE = STYLES_DIR / "default_gtk_theme" / "default_gtk.css"

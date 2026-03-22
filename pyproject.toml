@@ -13,6 +13,7 @@ dependencies = [
   "pygobject-stubs>=2.16.0",
   "pykwalify>=1.8.0",
   "pyyaml>=6.0.3",
+  "watchdog>=6.0.0",
 ]
 
 [dependency-groups]

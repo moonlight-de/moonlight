@@ -1,7 +1,8 @@
 {
   "general": {
     "styles": {
-      "system_theme": "dark"
+      "system_theme": "dark",
+      "stylesheet_path": "~/styles.css"
     }
   },
 
