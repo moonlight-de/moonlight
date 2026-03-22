@@ -2,6 +2,8 @@ from utils import (
     ConfigManager,
 )
 
+from services import WaylandIpcHandler
+
 from utils.constants import (
     ROOT_SCHEMAS_DIR,
     ROOT_CONFIG_DIR,
@@ -20,6 +22,7 @@ class ConfigWidgetManager(ConfigManager):
             ROOT_CONFIG_DIR,
             ROOT_SCHEMAS_DIR,
         )
+        self.wayland_ipc = WaylandIpcHandler.create_wayland_ipc()
         self.config = self.load()
         self.general = self.config["general"]
         self.widgets = self.config["widgets"]

@@ -1,7 +1,12 @@
-from widgets import init
-from utils.constants import TEXT_ICONS
+from app import init_widgets
 
 
-print(TEXT_ICONS.ui.headphones)
+def main():
+    init_widgets.run()
 
-init()
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass
