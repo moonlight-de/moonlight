@@ -1,15 +1,19 @@
-from loguru import logger
+# TODO: config_manager should be imported here
 from .config import ConfigWidgetManager
 
 config_manager = ConfigWidgetManager()
-from .status_bar import StatusBar
+
+
+# DONE:  ------------------------------------------------
+# ┬ ┬┬┌┬┐┌─┐┌─┐┌┬┐┌─┐
+# ││││ │││ ┬├┤  │ └─┐
+# └┴┘┴─┴┘└─┘└─┘ ┴ └─┘
+from .status_bar import StatusBar  # noqa: E402
+
+# DONE:  ------------------------------------------------
+
 
 __all__ = [
     "config_manager",
     "StatusBar",
 ]
-
-
-def init():
-    logger.info("Initializing widgets...")
-    StatusBar()
