@@ -7,6 +7,7 @@ from .paths import (
     XDG_CONFIG_HOME,
     XDG_CACHE_HOME,
     XDG_DATA_HOME,
+    STYLES_USER_FILE,
     APP_CONFIG_DIR,
     APP_CACHE_DIR,
     APP_DATA_DIR,
@@ -15,6 +16,11 @@ from .paths import (
     CONFIG_DEFAULT_NAMES,
     CONFIG_DEFAULT_SCHEMAS,
     ETC_DIR,
+    STYLES_DIR,
+    STYLES_SCSS_DIR,
+    STYLES_SCSS_FILE,
+    STYLES_MAIN_FILE,
+    STYLES_DEFAULT_GTK_FILE,
 )
 
 
@@ -35,4 +41,10 @@ __all__ = [
     "ETC_DIR",
     "SupportedDistributives",
     "SupportedDesktops",
+    "STYLES_DIR",
+    "STYLES_SCSS_DIR",
+    "STYLES_MAIN_FILE",
+    "STYLES_SCSS_FILE",
+    "STYLES_DEFAULT_GTK_FILE",
+    "STYLES_USER_FILE",
 ]

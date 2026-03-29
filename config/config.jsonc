@@ -1,5 +1,11 @@
 {
-  "general": {},
+  "general": {
+    "styles": {
+      "system_theme": "dark",
+      "stylesheet_path": ""
+    }
+  },
+
   "widgets": {
     "statusbar": {
       "enabled": true,
