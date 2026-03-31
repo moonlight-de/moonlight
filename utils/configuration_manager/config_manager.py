@@ -1,135 +1,74 @@
-from pathlib import Path
-from typing import Dict, Any, List
-import shutil
+from __future__ import annotations
 
-from utils.tools import MergeDicts
+from typing import Any
 
 from utils.constants import (
     PathHandler,
-    CONFIG_DEFAULT_NAMES,
-    CONFIG_DEFAULT_SCHEMAS,
+    CONFIG_SCHEMA,
+    DEFAULT_CONFIG_FILE,
+    APP_CONFIG_DIR,
+    CONFIG_FILE_NAME,
 )
+from utils.exceptions import ConfigKeyNotFoundError
 
-from .tools import (
-    ConfigFinder,
-    ConfigLoader,
-    ConfigImporter,
-    SchemaFinder,
-    SchemaValidator,
-)
+from .internals import ConfigManagerTools
+from .internals import ConfigManagerLoader
+from .internals.config_validator import ConfigValidator
+from .internals.config_accessor import ConfigNode
 
 
 class ConfigManager:
-    """
-    High-level manager:
-      - manages default (root) config dir and user dir
-      - requires a schemas_dir (optional; defaults to default_config_dir / 'schemas')
-      - validates configs with schema(s)
-      - seeds user dir from defaults if needed
-      - returns merged dict default <- user
-    """
+    def __init__(self) -> None:
+        PathHandler(APP_CONFIG_DIR, folder=True)
 
-    DEFAULT_NAMES = CONFIG_DEFAULT_NAMES
-    DEFAULT_SCHEMAS = CONFIG_DEFAULT_SCHEMAS
+        self.default_config_file = DEFAULT_CONFIG_FILE
+        self.schema_file = CONFIG_SCHEMA
+        self.user_config_file = APP_CONFIG_DIR / CONFIG_FILE_NAME
+        self.backup_config_file = APP_CONFIG_DIR / "config.backup.jsonc"
 
-    def __init__(
-        self,
-        user_dir: Path,
-        default_config_dir: Path,
-        schemas_dir: Path,
-    ):
-        self.user_dir = Path(user_dir)
-        self.default_config_dir = Path(default_config_dir)
-        PathHandler(self.default_config_dir, folder=True)
+        self._tools = ConfigManagerTools(self)
+        self._validator = ConfigValidator(self.schema_file)
+        self._loader = ConfigManagerLoader(self)
 
-        self.schemas_dir = Path(schemas_dir)
-        PathHandler(self.schemas_dir, folder=True)
+        self._config_cache: dict[str, Any] | None = None
+        self.cfg = ConfigNode(self)
 
-    def _find_default_files(self) -> List[Path]:
-        found: List[Path] = []
-        for name in self.DEFAULT_NAMES:
-            p = self.default_config_dir / name
-            if p.exists() and p.is_file():
-                found.append(p)
-        return found
+    def load(self) -> dict[str, Any]:
+        self._config_cache = self._loader.load()
+        return self._config_cache
 
-    def _ensure_defaults_present(self) -> List[Path]:
-        defaults = self._find_default_files()
-        if not defaults:
-            raise RuntimeError(
-                f"Default config directory '{self.default_config_dir}' does not contain any "
-                f"config files (expected one of: {', '.join(self.DEFAULT_NAMES)})"
-            )
-        return defaults
+    def get_config(self, reload: bool = False) -> dict[str, Any]:
+        if reload or self._config_cache is None:
+            return self.load()
+        return self._config_cache
 
-    def _ensure_user_dir_and_seed(self, defaults: List[Path]) -> None:
-        PathHandler(self.user_dir, folder=True)
+    def get(self, path: str, default: Any = None, reload: bool = False) -> Any:
+        active_config = self.get_config(reload=reload)
 
-        finder = ConfigFinder(self.user_dir)
-        user_file = finder.find()
+        sentinel = object()
+        value = self._tools.get_by_path(active_config, path, sentinel)
+        if value is not sentinel:
+            return value
 
-        needs_seeding = False
-        if user_file is None:
-            needs_seeding = True
-        else:
-            try:
-                if user_file.stat().st_size == 0:
-                    needs_seeding = True
-            except OSError:
-                needs_seeding = True
+        backup_config = self._loader.load_backup_config()
+        value = self._tools.get_by_path(backup_config, path, sentinel)
+        if value is not sentinel:
+            return value
 
-        if needs_seeding:
-            copied_any = False
-            for src in defaults:
-                dst = self.user_dir / src.name
-                if not dst.exists():
-                    shutil.copyfile(src, dst)
-                    copied_any = True
-            if not copied_any:
-                raise RuntimeError(
-                    f"User config in '{self.user_dir}' is missing or empty and seeding from defaults failed."
-                )
+        default_config = self._loader.load_default_config()
+        value = self._tools.get_by_path(default_config, path, sentinel)
+        if value is not sentinel:
+            return value
 
-    def _ensure_schema_present(self) -> Path:
-        finder = SchemaFinder(self.schemas_dir)
-        schema_path = finder.find_first()
-        if schema_path is None:
-            raise RuntimeError(
-                f"No schema found in '{self.schemas_dir}'. Expected one of: {', '.join(self.DEFAULT_SCHEMAS)}"
-            )
-        return schema_path
+        return default
 
-    def load(self) -> Dict[str, Any]:
-        defaults = self._ensure_defaults_present()
+    def require(self, path: str, reload: bool = False) -> Any:
+        sentinel = object()
+        value = self.get(path, default=sentinel, reload=reload)
+        if value is sentinel:
+            raise ConfigKeyNotFoundError(path)
+        return value
 
-        self._ensure_user_dir_and_seed(defaults)
-
-        schema_path = self._ensure_schema_present()
-        validator = SchemaValidator(schema_path)
-
-        merged_default: Dict[str, Any] = {}
-        for name in self.DEFAULT_NAMES:
-            src = self.default_config_dir / name
-            if src.exists():
-                data = ConfigLoader.load(src)
-                if isinstance(data, dict):
-                    validator.validate(data)
-                data = ConfigImporter.expand(data, src.parent, MergeDicts, ConfigLoader)
-                MergeDicts.merge(merged_default, data)
-
-        finder = ConfigFinder(self.user_dir)
-        user_file = finder.find()
-        if not user_file:
-            raise RuntimeError(
-                f"No user config found in '{self.user_dir}' after seeding."
-            )
-
-        user_data = ConfigLoader.load(user_file)
-        if isinstance(user_data, dict):
-            validator.validate(user_data)
-        user_data = ConfigImporter.expand(
-            user_data, user_file.parent, MergeDicts, ConfigLoader
-        )
-        MergeDicts.merge(merged_default, user_data)
-
-        return merged_default
+    def has(self, path: str, reload: bool = False) -> bool:
+        sentinel = object()
+        return self.get(path, default=sentinel, reload=reload) is not sentinel
