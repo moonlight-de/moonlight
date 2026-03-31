@@ -6,7 +6,7 @@ from utils.tools import AnchorHandler
 from .core import ModuleHandler
 
 
-if config_manager.statusbar["enabled"]:
+if config_manager.statusbar.enabled.value:
 
     class StatusBar(widgets.Window):
         """
@@ -19,7 +19,7 @@ if config_manager.statusbar["enabled"]:
             super().__init__(
                 title=APP_NAME + "- Status Bar",
                 namespace="StatusBar",
-                anchor=AnchorHandler.statusbar(config_manager.statusbar["position"]),
+                anchor=AnchorHandler.statusbar(config_manager.statusbar.position.value),
                 exclusivity="exclusive",
                 child=widgets.CenterBox(
                     start_widget=self.modules.local_modules["start_widgets"],

@@ -1,14 +1,5 @@
-from utils import (
-    ConfigManager,
-)
-
+from utils import ConfigManager
 from services import WaylandIpcHandler
-
-from utils.constants import (
-    ROOT_SCHEMAS_DIR,
-    ROOT_CONFIG_DIR,
-    APP_CONFIG_DIR,
-)
 
 
 class ConfigWidgetManager(ConfigManager):
@@ -16,14 +7,13 @@ class ConfigWidgetManager(ConfigManager):
     Initialize the config manager
     """
 
-    def __init__(self):
-        super().__init__(
-            APP_CONFIG_DIR,
-            ROOT_CONFIG_DIR,
-            ROOT_SCHEMAS_DIR,
-        )
+    def __init__(self) -> None:
+        super().__init__()
         self.wayland_ipc = WaylandIpcHandler.create_wayland_ipc()
-        self.config = self.load()
-        self.general = self.config["general"]
-        self.widgets = self.config["widgets"]
-        self.statusbar = self.widgets["statusbar"]
+
+        self.general = self.cfg.general
+        self.widgets = self.cfg.widgets
+        self.statusbar = self.cfg.widgets.statusbar
+
+
+config_manager = ConfigWidgetManager()

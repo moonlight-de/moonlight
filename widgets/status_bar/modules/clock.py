@@ -19,7 +19,7 @@ class ClockWidget(BaseBarWidget):
             timeout=1_000,
             callback=lambda s: self.widget.set_text(  # type: ignore
                 time.strftime(
-                    self.config["clock"]["format"],
+                    self.config.clock.format.value,
                 )
             ),
         )

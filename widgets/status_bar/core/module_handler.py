@@ -10,7 +10,7 @@ class ModuleHandler:
     """
 
     def __init__(self):
-        layout = config_manager.statusbar["modules_layout"]
+        layout = config_manager.statusbar.modules_layout.as_dict()
         registry = StatusBarModules.WIDGETS
 
         self.local_modules = {
