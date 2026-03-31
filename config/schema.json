@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Moonlight configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "general": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "styles": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "system_theme": {
+              "type": "string",
+              "enum": ["dark", "light"]
+            },
+            "stylesheet_path": {
+              "type": "string"
+            }
+          },
+          "required": ["system_theme", "stylesheet_path"]
+        }
+      },
+      "required": ["styles"]
+    },
+
+    "widgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "statusbar": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "position": {
+              "type": "string",
+              "enum": ["top", "bottom"]
+            },
+            "modules_layout": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "start_widgets": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "center_widgets": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "end_widgets": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": ["start_widgets", "center_widgets", "end_widgets"]
+            },
+            "modules": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          },
+          "required": ["enabled", "position", "modules_layout", "modules"]
+        }
+      },
+      "required": ["statusbar"]
+    }
+  },
+  "required": ["general", "widgets"]
+}

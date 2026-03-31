@@ -11,7 +11,7 @@ class BaseBarWidget(ABC):
     """
 
     def __init__(self) -> None:
-        self.config = config_manager.statusbar["modules"]
+        self.config = config_manager.statusbar.modules
         self.ignis_utils = utils
         self.ignis_widget = widgets
         self.widget = self.build()
