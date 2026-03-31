@@ -24,9 +24,12 @@ APP_DATA_DIR = XDG_DATA_HOME / APP_NAME
 ROOT_CONFIG_DIR = PROJECT_ROOT / "config"
 ROOT_SCHEMAS_DIR = ROOT_CONFIG_DIR / "schemas"
 
-# configuration defaults
-CONFIG_DEFAULT_SCHEMAS = ("schema.yaml", "schema.yml", "schema.jsonc")
-CONFIG_DEFAULT_NAMES = ("config.yaml", "config.yml", "config.jsonc")
+CONFIG_FILE_NAME = "config.jsonc"
+
+CONFIG_SCHEMA = ROOT_CONFIG_DIR / "schema.json"
+DEFAULT_CONFIG_FILE = ROOT_CONFIG_DIR / CONFIG_FILE_NAME
+BACKUP_CONFIG_FILE = APP_DATA_DIR / "config.backup.jsonc"
+
 
 # system configuration
 ETC_DIR = Path("/etc")
