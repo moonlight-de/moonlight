@@ -83,7 +83,7 @@ class UserStylesWatchHandler(FileSystemEventHandler):
             return
 
         try:
-            src_path = Path(event.src_path).expanduser().resolve()
+            src_path = Path(event.src_path).expanduser().resolve()  # type: ignore
         except Exception:
             src_path = None
 
