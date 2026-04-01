@@ -1,8 +1,10 @@
 from abc import ABC, abstractmethod
-from widgets import config_manager
-from gi.repository import Gtk, GLib  # type: ignore
+
+from gi.repository import Gtk  # type: ignore
 from ignis import widgets
-from ignis import utils
+from ignis.utils import Utils
+
+from widgets import config_manager
 
 
 class BaseBarWidget(ABC):
@@ -12,10 +14,11 @@ class BaseBarWidget(ABC):
 
     def __init__(self) -> None:
         self.config = config_manager.statusbar.modules
-        self.ignis_utils = utils
-        self.ignis_widget = widgets
         self.widget = self.build()
-        GLib.idle_add(self.update)
+        self._poll = None
+
+        self.update()
+        self.start()
 
     @abstractmethod
     def build(self) -> widgets.Widget | Gtk.Widget:  # type: ignore
@@ -32,7 +35,27 @@ class BaseBarWidget(ABC):
         """
         raise NotImplementedError
 
-    ...
+    def start(self) -> None:
+        """
+        Start internal timers/polls if needed.
+        """
+        return None
+
+    def refresh_from_config(self, changed_paths: set[str] | None = None) -> None:
+        """
+        Soft reload hook.
+        """
+        self.update()
+
+    def destroy(self) -> None:
+        """
+        Cleanup timers/polls/resources.
+        """
+        if self._poll is not None:
+            cancel = getattr(self._poll, "cancel", None)
+            if callable(cancel):
+                cancel()
+            self._poll = None
 
     def get_widget(self) -> widgets.Widget | Gtk.Widget:  # type: ignore
         """

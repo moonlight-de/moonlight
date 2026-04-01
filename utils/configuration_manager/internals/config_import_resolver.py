@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import os
 from pathlib import Path
 from typing import Any
@@ -13,11 +11,19 @@ from utils.exceptions import (
 
 
 class ConfigImportResolver:
+    IMPORT_KEYS = ("import", "imports")
+
     def __init__(self, loader: Any, merger: Any) -> None:
         self.loader = loader
         self.merger = merger
+        self._resolved_paths: set[Path] = set()
+
+    @property
+    def resolved_paths(self) -> set[Path]:
+        return set(self._resolved_paths)
 
     def resolve(self, data: Any, base_dir: Path) -> Any:
+        self._resolved_paths = set()
         return self._resolve(data, base_dir, visited=set())
 
     def _resolve(
@@ -40,24 +46,19 @@ class ConfigImportResolver:
         base_dir: Path,
         visited: set[Path],
     ) -> Any:
-        if "import" not in data:
+        import_items = self._collect_import_items(data)
+
+        if not import_items:
             return {
                 key: self._resolve(value, base_dir, visited)
                 for key, value in data.items()
             }
 
-        raw_import = data["import"]
-        import_items = raw_import if isinstance(raw_import, list) else [raw_import]
-
         combined_import: Any = None
 
         for raw_path in import_items:
-            if not isinstance(raw_path, str):
-                raise ConfigImportError(
-                    f"Import value must be a string or list of strings, got: {type(raw_path).__name__}"
-                )
-
             imp_path = self._resolve_path(raw_path, base_dir)
+            self._resolved_paths.add(imp_path)
 
             if not imp_path.exists():
                 raise ConfigImportNotFoundError(
@@ -85,14 +86,14 @@ class ConfigImportResolver:
                     imp_path,
                 )
 
-        if set(data.keys()) == {"import"}:
-            return combined_import if combined_import is not None else {}
-
         local_data = {
             key: self._resolve(value, base_dir, visited)
             for key, value in data.items()
-            if key != "import"
+            if key not in self.IMPORT_KEYS
         }
+
+        if not local_data:
+            return combined_import if combined_import is not None else {}
 
         if combined_import is None:
             return local_data
@@ -111,7 +112,7 @@ class ConfigImportResolver:
         result: list[Any] = []
 
         for item in data:
-            if isinstance(item, dict) and "import" in item:
+            if isinstance(item, dict) and self._has_import_key(item):
                 expanded = self._resolve(item, base_dir, visited)
                 if isinstance(expanded, list):
                     result.extend(expanded)
@@ -121,6 +122,29 @@ class ConfigImportResolver:
                 result.append(self._resolve(item, base_dir, visited))
 
         return result
+
+    def _collect_import_items(self, data: dict[str, Any]) -> list[str]:
+        items: list[str] = []
+
+        for key in self.IMPORT_KEYS:
+            if key not in data:
+                continue
+
+            raw_value = data[key]
+            raw_items = raw_value if isinstance(raw_value, list) else [raw_value]
+
+            for raw_path in raw_items:
+                if not isinstance(raw_path, str):
+                    raise ConfigImportError(
+                        f"{key!r} value must be a string or list of strings, "
+                        f"got: {type(raw_path).__name__}"
+                    )
+                items.append(raw_path)
+
+        return items
+
+    def _has_import_key(self, data: dict[str, Any]) -> bool:
+        return any(key in data for key in self.IMPORT_KEYS)
 
     def _merge_imported_values(
         self,

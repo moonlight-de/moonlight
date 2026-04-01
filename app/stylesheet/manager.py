@@ -1,6 +1,7 @@
 from ignis.css_manager import CssInfoPath, CssManager
 from loguru import logger
 
+from services.config_reload import config_reload_service
 from utils.constants.paths import STYLES_MAIN_FILE, STYLES_USER_FILE
 
 from .scss_compiler import ScssCompiler, ScssWatcher
@@ -20,6 +21,8 @@ class StylesheetManager:
 
         self._scss_watcher_started = False
         self._user_styles_watcher_started = False
+
+        config_reload_service.connect_soft(self._on_soft_reload)
 
     def setup(self) -> None:
         try:
@@ -79,6 +82,13 @@ class StylesheetManager:
             self.user_styles_watcher.stop()
             self._user_styles_watcher_started = False
 
-    def reload_styles(self):
+    def reload_styles(self) -> None:
+        logger.info("Reloading styles from config changes...")
         self.stop()
         self.setup()
+
+    def _on_soft_reload(self, _config: dict, changed_paths: set[str]) -> None:
+        if not any(path.startswith("general.styles.") for path in changed_paths):
+            return
+
+        self.reload_styles()

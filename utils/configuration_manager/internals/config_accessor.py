@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from ..config_manager import ConfigManager
+    from utils import ConfigManager
 
 
 class ConfigNode:

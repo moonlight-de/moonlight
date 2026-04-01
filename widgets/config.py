@@ -1,4 +1,4 @@
-from utils import ConfigManager
+from utils.configuration_manager import ConfigManager
 from services import WaylandIpcHandler
 
 

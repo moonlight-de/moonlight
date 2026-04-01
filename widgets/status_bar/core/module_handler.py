@@ -13,6 +13,7 @@ class ModuleHandler:
         layout = config_manager.statusbar.modules_layout.as_dict()
         registry = StatusBarModules.WIDGETS
 
+        self.instances: dict[str, object] = {}
         self.local_modules = {
             "start_widgets": widgets.Box(),
             "center_widgets": widgets.Box(),
@@ -20,15 +21,31 @@ class ModuleHandler:
         }
 
         for position, modules in layout.items():
-            box = self.local_modules[position]
-            if not box:
+            box = self.local_modules.get(position)
+            if box is None:
                 logger.warning(f"Unknown layout position: {position}")
                 continue
 
             for module_name in modules:
-                widget_cls = registry[module_name]
-                if not widget_cls:
+                widget_cls = registry.get(module_name)
+                if widget_cls is None:
                     logger.warning(f"Module {module_name} not found.")
                     continue
 
-                box.append(widget_cls().get_widget())
+                module = widget_cls()
+                self.instances[module_name] = module
+                box.append(module.get_widget())
+
+    def soft_reload(self, changed_paths: set[str]) -> None:
+        for module in self.instances.values():
+            refresh = getattr(module, "refresh_from_config", None)
+            if callable(refresh):
+                refresh(changed_paths)
+
+    def destroy(self) -> None:
+        for module in self.instances.values():
+            destroy = getattr(module, "destroy", None)
+            if callable(destroy):
+                destroy()
+
+        self.instances.clear()

@@ -3,6 +3,12 @@ from .path_handler import PathHandler
 from .system import APP_NAME
 from .supported_distributive import SupportedDistributives
 from .supported_desktops import SupportedDesktops
+from .config import (
+    INTERESTING_EVENTS,
+    HARD_RELOAD_PATHS,
+    HARD_RELOAD_PREFIXES,
+    SOFT_RELOAD_PREFIXES,
+)
 from .paths import (
     XDG_CONFIG_HOME,
     BACKUP_CONFIG_FILE,
@@ -51,4 +57,8 @@ __all__ = [
     "DEFAULT_CONFIG_FILE",
     "CONFIG_FILE_NAME",
     "BACKUP_CONFIG_FILE",
+    "INTERESTING_EVENTS",
+    "HARD_RELOAD_PATHS",
+    "HARD_RELOAD_PREFIXES",
+    "SOFT_RELOAD_PREFIXES",
 ]

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
 
 from utils.constants import (
@@ -31,16 +32,33 @@ class ConfigManager:
         self._loader = ConfigManagerLoader(self)
 
         self._config_cache: dict[str, Any] | None = None
+        self._tracked_config_files: set[Path] = {
+            self.default_config_file.expanduser().resolve(strict=False),
+            self.user_config_file.expanduser().resolve(strict=False),
+            self.backup_config_file.expanduser().resolve(strict=False),
+        }
+
         self.cfg = ConfigNode(self)
 
     def load(self) -> dict[str, Any]:
         self._config_cache = self._loader.load()
         return self._config_cache
 
+    def load_for_runtime_reload(self) -> dict[str, Any]:
+        self._config_cache = self._loader.load_for_runtime_reload()
+        return self._config_cache
+
     def get_config(self, reload: bool = False) -> dict[str, Any]:
         if reload or self._config_cache is None:
             return self.load()
         return self._config_cache
+
+    def set_tracked_config_files(self, paths: set[Path]) -> None:
+        normalized = {path.expanduser().resolve(strict=False) for path in paths}
+        self._tracked_config_files = normalized
+
+    def get_tracked_config_files(self) -> set[Path]:
+        return set(self._tracked_config_files)
 
     def get(self, path: str, default: Any = None, reload: bool = False) -> Any:
         active_config = self.get_config(reload=reload)
