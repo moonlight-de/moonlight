@@ -1,28 +1,23 @@
 from __future__ import annotations
 
-import json
-from ignis.services.hyprland import HyprlandWindow
+from typing import TYPE_CHECKING, List, Optional
+
 from services.wayland_ipc.hyprland.models import WindowsModel
 from services.wayland_ipc.interfaces import IWindows
-from typing import TYPE_CHECKING, List, Optional
 
 if TYPE_CHECKING:
     from services.wayland_ipc.hyprland import Hyprctl
 
 
 class HyprWindows(IWindows):
-    def __init__(self, hyprland_ipc: Hyprctl) -> None:
+    def __init__(self, hyprland_ipc: "Hyprctl") -> None:
         self.hyprland_ipc = hyprland_ipc
 
     @property
     def list_windows(self) -> list[WindowsModel]:
-        windows = self.hyprland_ipc.hypr.windows
-        windows_list: list[WindowsModel] = []
-
-        for window in windows:
-            windows_list.append(self._window_schema(window))
-
-        return windows_list
+        return [
+            self._window_schema(window) for window in self.hyprland_ipc.hypr.windows
+        ]
 
     def _window_schema(self, window) -> WindowsModel:
         return WindowsModel(
@@ -44,39 +39,18 @@ class HyprWindows(IWindows):
         for window in self.hyprland_ipc.hypr.windows:
             if window.address == address:
                 return self._window_schema(window)
+        return None
 
     def list_windows_on_workspace(
-        self, workspace_id: int
+        self,
+        workspace_id: int,
     ) -> Optional[List[WindowsModel]]:
-        windows = self.hyprland_ipc.hypr.windows
-        windows_list: list[WindowsModel] = []
-
-        for window in windows:
-            if window.workspace_id == workspace_id:
-                windows_list.append(self._window_schema(window))
-
-        return windows_list
+        windows = [
+            self._window_schema(window)
+            for window in self.hyprland_ipc.hypr.windows
+            if window.workspace_id == workspace_id
+        ]
+        return windows
 
     def refresh(self) -> None:
-        data_list = json.loads(self.hyprland_ipc.hypr.send_command("j/clients"))
-
-        old_windows = self.hyprland_ipc.hypr._windows
-        new_windows: dict[str, HyprlandWindow] = {}
-
-        for data in data_list:
-            address = data["address"]
-
-            if address in old_windows:
-                win = old_windows[address]
-            else:
-                win = HyprlandWindow()
-                self.hyprland_ipc.hypr.emit("window-added", win)
-
-            win.sync(data)
-            new_windows[address] = win
-
-        for address, win in old_windows.items():
-            if address not in new_windows:
-                win.emit("closed")
-
-        self.hyprland_ipc.hypr._windows = dict(sorted(new_windows.items()))
+        self.hyprland_ipc._refresh_windows()

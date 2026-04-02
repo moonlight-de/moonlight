@@ -4,6 +4,7 @@ from .define_desktop_env import DefineDesktopEnv
 from .define_current_desktop import DefineDesktop
 from .define_distro import DefineDistro
 from .paths_handler import PathsHandler
+from .position_handler import PositionHandler
 
 
 __all__ = [
@@ -13,4 +14,5 @@ __all__ = [
     "DefineDesktop",
     "DefineDistro",
     "PathsHandler",
+    "PositionHandler",
 ]

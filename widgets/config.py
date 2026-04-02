@@ -1,4 +1,5 @@
 from utils.configuration_manager import ConfigManager
+from utils.tools import PositionHandler
 from services import WaylandIpcHandler
 
 
@@ -14,6 +15,10 @@ class ConfigWidgetManager(ConfigManager):
         self.general = self.cfg.general
         self.widgets = self.cfg.widgets
         self.statusbar = self.cfg.widgets.statusbar
+
+        self.statusbar_is_vertical = PositionHandler.statusbar_is_vertical(
+            self.statusbar.position.value
+        )
 
 
 config_manager = ConfigWidgetManager()

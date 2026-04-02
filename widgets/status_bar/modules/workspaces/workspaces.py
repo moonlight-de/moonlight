@@ -1,15 +1,22 @@
 from widgets.status_bar.modules.base_widget import BaseBarWidget
-from services import WaylandIpcHandler
 from ignis import widgets
 
 
 class WorkspacesWidget(BaseBarWidget):
-    def __init__(self):
-        self.wayland_ipc = WaylandIpcHandler.create_wayland_ipc()
-        super().__init__()
+    def on_init(self) -> None:
+        self.events = self.config_manager.wayland_ipc.events.workspace
+        self.workspace_service = self.config_manager.wayland_ipc.workspace
+
+        self.events.changed(self.update)
 
     def build(self):
-        return widgets.Label(label="workspaces")
+        self.child_box = widgets.Box()
+        self.label = widgets.Label(
+            label=str(self.workspace_service.active_workspace_id)
+        )
+        self.child_box.append(self.label)
 
-    def update(self):
-        pass
+        return self.child_box
+
+    def update(self, *_args):
+        self.label.set_text(str(self.workspace_service.active_workspace_id))

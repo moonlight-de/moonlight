@@ -13,30 +13,30 @@ if TYPE_CHECKING:
 
 class IEvents(ABC):
     @abstractmethod
-    def on(self, event: HyprlandEvent, callback: Callable[[str], None]) -> None:
-        """Connect to desktop environment events"""
+    def on(self, event: "HyprlandEvent", callback: Callable[[], None]) -> None:
+        """Connect to desktop environment events."""
         ...
 
     @property
     @abstractmethod
     def workspace(self) -> IWorkspaceEvent:
-        """Return a desktop environment methods"""
+        """Workspace event facade."""
         ...
 
     @property
     @abstractmethod
     def window(self) -> IWindowEvent:
-        """Return a desktop environment methods"""
+        """Window event facade."""
         ...
 
     @property
     @abstractmethod
     def monitor(self) -> IMonitorEvent:
-        """Return a desktop environment methods"""
+        """Monitor event facade."""
         ...
 
     @property
     @abstractmethod
     def main_keyboard(self) -> IMainKeyboardEvent:
-        """Return a desktop environment methods"""
+        """Keyboard event facade."""
         ...

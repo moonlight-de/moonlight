@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Callable
 
 from services.wayland_ipc.interfaces import IWorkspaceEvent
+
 from .hyprland_event import HyprlandEvent
 
 if TYPE_CHECKING:
@@ -10,20 +11,23 @@ if TYPE_CHECKING:
 
 
 class WorkspaceEvent(IWorkspaceEvent):
-    def __init__(self, hypr_events: HyprEvents) -> None:
+    def __init__(self, hypr_events: "HyprEvents") -> None:
         self.hypr_events = hypr_events
 
     def changed(self, callback: Callable) -> None:
+        self.hypr_events.on(HyprlandEvent.WORKSPACE, callback)
         self.hypr_events.on(HyprlandEvent.WORKSPACE_V2, callback)
+        self.hypr_events.on(HyprlandEvent.FOCUSED_MON, callback)
+        self.hypr_events.on(HyprlandEvent.FOCUSED_MON_V2, callback)
 
-    def created(self, callback) -> None:
+    def created(self, callback: Callable) -> None:
         self.hypr_events.on(HyprlandEvent.CREATE_WORKSPACE_V2, callback)
 
     def destroyed(self, callback: Callable) -> None:
         self.hypr_events.on(HyprlandEvent.DESTROY_WORKSPACE_V2, callback)
 
-    def moved(self, callback: Callable):
+    def moved(self, callback: Callable) -> None:
         self.hypr_events.on(HyprlandEvent.MOVE_WORKSPACE_V2, callback)
 
-    def renamed(self, callback: Callable):
+    def renamed(self, callback: Callable) -> None:
         self.hypr_events.on(HyprlandEvent.RENAME_WORKSPACE, callback)

@@ -2,10 +2,11 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Callable, Optional
 
-from ignis.utils import Poll
 from gi.repository.GLib import idle_add  # type: ignore
+from ignis.utils import Poll
 
 from services.wayland_ipc.interfaces import IMainKeyboardEvent
+
 from .hyprland_event import HyprlandEvent
 
 if TYPE_CHECKING:
@@ -13,28 +14,29 @@ if TYPE_CHECKING:
 
 
 class MainKeyboardEvent(IMainKeyboardEvent):
-    def __init__(self, hypr_events: HyprEvents) -> None:
+    def __init__(self, hypr_events: "HyprEvents") -> None:
         self.hypr_events = hypr_events
         self._main_keyboard = hypr_events.hyprland_ipc.main_keyboard
 
-        self._language = self._main_keyboard.keyboard.active_keymap
-        self._capslock = self._main_keyboard.keyboard.caps_lock
-        self._numlock = self._main_keyboard.keyboard.num_lock
+        keyboard = self._main_keyboard.keyboard
+        self._language = keyboard.active_keymap
+        self._capslock = keyboard.caps_lock
+        self._numlock = keyboard.num_lock
 
-        self._caps_cb: Optional[Callable] = None
-        self._num_cb: Optional[Callable] = None
+        self._caps_cb: Optional[Callable[[], None]] = None
+        self._num_cb: Optional[Callable[[], None]] = None
 
-        Poll(
+        self._poll = Poll(
             timeout=300,
-            callback=lambda _: self._poll_keyboard(),
+            callback=lambda *_: self._poll_keyboard(),
         )
 
     def language_changed(self, callback: Callable) -> None:
-        def handler():
-            new_lang = self._main_keyboard.keyboard.active_keymap
-            if new_lang != self._language:
-                self._language = new_lang
-                idle_add(callback)
+        def handler() -> None:
+            new_language = self._main_keyboard.keyboard.active_keymap
+            if new_language != self._language:
+                self._language = new_language
+                callback()
 
         self.hypr_events.on(HyprlandEvent.ACTIVE_LAYOUT, handler)
 
@@ -44,18 +46,18 @@ class MainKeyboardEvent(IMainKeyboardEvent):
     def numlock_changed(self, callback: Callable) -> None:
         self._num_cb = callback
 
-    def _poll_keyboard(self):
+    def _poll_keyboard(self) -> bool:
         self._main_keyboard.refresh()
-        kb = self._main_keyboard.keyboard
+        keyboard = self._main_keyboard.keyboard
 
-        if kb.caps_lock != self._capslock:
-            self._capslock = kb.caps_lock
-            if self._caps_cb:
+        if keyboard.caps_lock != self._capslock:
+            self._capslock = keyboard.caps_lock
+            if self._caps_cb is not None:
                 idle_add(self._caps_cb)
 
-        if kb.num_lock != self._numlock:
-            self._numlock = kb.num_lock
-            if self._num_cb:
+        if keyboard.num_lock != self._numlock:
+            self._numlock = keyboard.num_lock
+            if self._num_cb is not None:
                 idle_add(self._num_cb)
 
         return True

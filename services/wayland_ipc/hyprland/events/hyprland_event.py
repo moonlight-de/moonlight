@@ -2,21 +2,17 @@ from enum import StrEnum
 
 
 class HyprlandEvent(StrEnum):
-    """
-    Enumeration of all available Hyprland IPC events.
-    
-    This enum provides type-safe access to event names used throughout
-    the codebase when subscribing to Hyprland events via the .on() method.
-    """
-
-    # Keyboard events
+    # Keyboard
     ACTIVE_LAYOUT = "activelayout"
 
-    # Monitor events
+    # Monitors
+    MONITORS_CHANGED = "monitorschanged"
+    MONITOR_ADDED = "monitoradded"
     MONITOR_ADDED_V2 = "monitoraddedv2"
+    MONITOR_REMOVED = "monitorremoved"
     MONITOR_REMOVED_V2 = "monitorremovedv2"
 
-    # Window events
+    # Windows
     OPEN_WINDOW = "openwindow"
     CLOSE_WINDOW = "closewindow"
     ACTIVE_WINDOW = "activewindow"
@@ -24,10 +20,12 @@ class HyprlandEvent(StrEnum):
     CHANGE_FLOATING_MODE = "changefloatingmode"
     FULLSCREEN = "fullscreen"
 
-    # Workspace events
+    # Workspaces
+    WORKSPACE = "workspace"
     WORKSPACE_V2 = "workspacev2"
+    FOCUSED_MON = "focusedmon"
+    FOCUSED_MON_V2 = "focusedmonv2"
     CREATE_WORKSPACE_V2 = "createworkspacev2"
     DESTROY_WORKSPACE_V2 = "destroyworkspacev2"
     MOVE_WORKSPACE_V2 = "moveworkspacev2"
     RENAME_WORKSPACE = "renameworkspace"
-

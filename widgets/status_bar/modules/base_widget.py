@@ -2,55 +2,45 @@ from abc import ABC, abstractmethod
 
 from gi.repository import Gtk  # type: ignore
 from ignis import widgets
-from ignis.utils import Utils
 
 from widgets import config_manager
 
 
 class BaseBarWidget(ABC):
-    """
-    Abstract class for status bar widgets
-    """
-
     def __init__(self) -> None:
+        self.config_manager = config_manager
         self.config = config_manager.statusbar.modules
-        self.widget = self.build()
+        self.widget: widgets.Widget | Gtk.Widget | None = None  # type: ignore
         self._poll = None
 
+        self.on_init()
+
+        self.widget = self.build()
         self.update()
         self.start()
 
-    @abstractmethod
-    def build(self) -> widgets.Widget | Gtk.Widget:  # type: ignore
+    def on_init(self) -> None:
         """
-        Build the widget here.
-        Return a GTK4 or ignis.widgets.Widget.
-        """
-        raise NotImplementedError
-
-    @abstractmethod
-    def update(self) -> None:
-        """
-        Update the widget here.
-        """
-        raise NotImplementedError
-
-    def start(self) -> None:
-        """
-        Start internal timers/polls if needed.
+        Optional child initialization hook.
+        Runs before build().
         """
         return None
 
+    @abstractmethod
+    def build(self) -> widgets.Widget | Gtk.Widget:  # type: ignore
+        raise NotImplementedError
+
+    @abstractmethod
+    def update(self, *_args) -> None:
+        raise NotImplementedError
+
+    def start(self) -> None:
+        return None
+
     def refresh_from_config(self, changed_paths: set[str] | None = None) -> None:
-        """
-        Soft reload hook.
-        """
         self.update()
 
     def destroy(self) -> None:
-        """
-        Cleanup timers/polls/resources.
-        """
         if self._poll is not None:
             cancel = getattr(self._poll, "cancel", None)
             if callable(cancel):
@@ -58,7 +48,6 @@ class BaseBarWidget(ABC):
             self._poll = None
 
     def get_widget(self) -> widgets.Widget | Gtk.Widget:  # type: ignore
-        """
-        Returns the GTK widget for insertion into a Box
-        """
+        if self.widget is None:
+            raise RuntimeError(f"{self.__class__.__name__} is not initialized.")
         return self.widget
